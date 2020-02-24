@@ -354,25 +354,6 @@ noprefix "false"
 .
 \end_layout
 
-\begin_layout Standard
-Debido a la complejidad del modelo, se decidio obtener la transferencia
- a lazo abierto del sistema de manera empirica a traves de un analisis de
- la salida obtenida a partir de una determinada entrada cerca del punto
- de equilibrio del sistema.Se puede ver de la ecuacion 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:Edo"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- que el sistema no es lineal por lo que se eligio como punto de equilibrio
- la altura correspondiente a la mitad del tubo y se trabaja como si el sistema
- fuera lineal cerca de dicho punto de equilibrio.
-\end_layout
-
 \begin_layout Subsection
 Controlador PID
 \end_layout
