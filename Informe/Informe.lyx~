@@ -77,19 +77,33 @@
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "caratulaCONTROL-TP3.lyx"
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introducción
 \end_layout
 
 \begin_layout Standard
 El siguiente proyecto consiste en la realizacion de un sistema que controle
- la altura a la que levita una pelota de ping pong dentro de un tubo plastico.El
- controlador se realizo utilizando PID digital por medio de un arduino.
+ la altura a la que levita una pelota de ping pong dentro de un tubo plástico.
+ El controlador se realizó utilizando PID digital por medio de un arduino.
 \end_layout
 
 \begin_layout Standard
-A lo largo de este informe se explicara el modelo fisico del problema, la
- implementacion del controlador asi como los resultados del mismo.
+A lo largo de este informe se explicará el modelo físico del problema, la
+ implementación del controlador así como los resultados del mismo.
 \end_layout
 
 \begin_layout Section
@@ -98,16 +112,25 @@ Objetivos y resumen
 
 \begin_layout Standard
 El objetivo principal del proyecto es poder lograr que una pelota de ping
- pong se mantenga a una altura constante dentro de un tubo plastico a pesar
- de posibles alteraciones en la posicion de la misma.
+ pong se mantenga a una altura constante dentro de un tubo plástico a pesar
+ de posibles alteraciones en la posición de la misma.
 \end_layout
 
 \begin_layout Standard
-El sistema consiste como se menciono previamente de una pellota de ping
- pong y un tubo plastico, asi como tambien de un ventilador ubicado en la
- base del tubo para mantener la pelota levitando en cierta posicion, un
- sensor infrarojo en la parte superior del tubo para saber la posicion de
- la pelota dentro del tubo, y un arduino.
+La planta de nuestro sistema consiste, como se mencionó previamente, de
+ un tubo plástico posicionado de manera vertical dentro del cual se encuentra
+ la pelota de ping pong.
+ Para mantenerla en una misma posición se cuenta con un ventilador en la
+ base del tubo que levanta la pelota, como también de un sensor infrarrojo
+ en la parte superior del tubo que censa la posición de la misma.
+ La función del Arduino es controlar la velocidad del ventilador mediante
+ control PID para variar el flujo del aire y permitir que la pelota se mantenga
+ estable.
+\end_layout
+
+\begin_layout Standard
+Cabe aclarar que el tubo cuenta con ranuras laterales para permitir el flujo
+ de aire hacia el exterior proveniente del ventilador.
 \end_layout
 
 \begin_layout Standard
@@ -144,9 +167,9 @@ Marco Teórico
 \end_layout
 
 \begin_layout Standard
-Para el modelado fisico del sistema se considera que solo actuan dos fuerzas
- para la peota que esta dentro del tubo, la fuerza del aire que empuja a
- la pelota y la fuerza gravitacional.
+Para el modelado físico del sistema se considera que sólo actúan dos fuerzas
+ para la pelota que está dentro del tubo, la fuerza del aire que empuja
+ a la pelota y la fuerza gravitacional.
 \end_layout
 
 \begin_layout Standard
@@ -155,10 +178,6 @@ Para el modelado fisico del sistema se considera que solo actuan dos fuerzas
 wide false
 sideways false
 status collapsed
-
-\begin_layout Plain Layout
-
-\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -236,21 +255,21 @@ Donde:
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\rho$
+\begin_inset Formula $\rho\sim1.2kg/m^{3}$
 \end_inset
 
- es la densidad volumetrica del aire
+, la densidad volumétrica del aire
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $m$
+\begin_inset Formula $m=2.7g$
 \end_inset
 
- es la masa de la pelota de ping pong
+, la masa de la pelota de ping pong
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $r$
+\begin_inset Formula $r=2cm$
 \end_inset
 
  es el radio de la pelota de ping pong
@@ -260,7 +279,7 @@ Donde:
 \begin_inset Formula $y$
 \end_inset
 
- es la posicion vertical de la pelota dentro del tubo
+ es la posición vertical de la pelota dentro del tubo
 \end_layout
 
 \begin_layout Itemize
@@ -271,17 +290,17 @@ Donde:
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $g$
+\begin_inset Formula $g=9.81m/s^{2}$
 \end_inset
 
- es la constante gravitacional
+, la constante gravitacional
 \end_layout
 
 \begin_layout Itemize
 \begin_inset Formula $C_{d}=\frac{24}{Re}+\frac{6}{1+\sqrt{Re}}+0.4$
 \end_inset
 
-
+, el coeficiente de arrastre
 \end_layout
 
 \begin_layout Itemize
@@ -295,7 +314,7 @@ Donde:
 \begin_inset Formula $\eta$
 \end_inset
 
- es la viscosidad dinamica del aire.
+ es la viscosidad dinámica del aire.
 \end_layout
 
 \begin_layout Standard
@@ -307,12 +326,13 @@ Asumiendo que
 \begin_inset Formula $C_{d}\thickapprox0.4$
 \end_inset
 
-)lo cual es valido si la pelota tiene un diametro de 2cm y la velocidad
- del aire es mayor 
+) lo cual es válido si la pelota tiene un radio de 2cm y la velocidad del
+ aire es mayor a 
 \begin_inset Formula $0.66\frac{m}{seg}$
 \end_inset
 
-.Entonces la ecuacion del problema resulta:
+.
+ Entonces la ecuación del problema resulta:
 \end_layout
 
 \begin_layout Standard
@@ -329,14 +349,14 @@ Asumiendo que
 
 \begin_layout Standard
 Consideramos como la salida del sistema la altura de la pelota de ping pong
- con respecto a la base con el ventilador.Mientras que la entrada del sistema
- es la tension de continua que fija la velocidad con la que gira el ventilador
+ con respecto a la base con el ventilador, mientras que la entrada del sistema
+ es la tensión de continua que fija la velocidad con la que gira el ventilador
  de la base.
  La variable 
 \begin_inset Formula $v_{aire}$
 \end_inset
 
- en la ecuacion 
+ en la ecuación 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:Edo"
@@ -346,12 +366,32 @@ noprefix "false"
 
 \end_inset
 
- esta relacionado con la velocidad con la que gira el ventilador mediante
- una funcion matematica desconocida 
+ está relacionada con la velocidad con la que gira el ventilador mediante
+ una función matematica desconocida 
 \begin_inset Formula $v_{aire}=f(y,V_{DC})$
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+Debido a la complejidad del modelo, se decidió obtener la transferencia
+ a lazo abierto del sistema de manera empírica a través de un análisis de
+ la salida obtenida a partir de una determinada entrada cerca del punto
+ de equilibrio del sistema.
+ Se puede ver de la ecuación 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Edo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ que el sistema no es lineal por lo que se eligió como punto de equilibrio
+ la altura correspondiente a la mitad del tubo y se trabaja como si el sistema
+ fuera lineal cerca de dicho punto de equilibrio.
 \end_layout
 
 \begin_layout Subsection
