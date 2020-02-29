@@ -487,7 +487,7 @@ v_{aire}=K_{a}.V_{DC}
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{dx}{dt}=v_{pelota}
+\frac{dv_{pelota}}{dt}=
 \]
 
 \end_inset
@@ -498,18 +498,12 @@ v_{aire}=K_{a}.V_{DC}
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{dv_{pelota}}{dt}=\frac{1}{5m}\rho\pi r^{2}(v_{aire}-v_{pelota})^{2}-g
+\frac{dx}{dt}=v_{pelota}
 \]
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Se observa que la última ecuación no es lineal, por lo que se debe linealizar
- por el Jacobiano.
- 
 \end_layout
 
 \begin_layout Subsection

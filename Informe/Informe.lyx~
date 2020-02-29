@@ -32,7 +32,7 @@
 \spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -57,6 +57,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 25mm
+\topmargin 2.5cm
+\rightmargin 25mm
+\bottommargin 2.5cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -80,7 +84,7 @@
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand input
-filename "caratulaCONTROL-TP3.lyx"
+filename "caratulaCONTROL-TPF.lyx"
 
 \end_inset
 
@@ -175,6 +179,7 @@ Para el modelado físico del sistema se considera que sólo actúan dos fuerzas
 \begin_layout Standard
 \align center
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status collapsed
@@ -367,7 +372,7 @@ noprefix "false"
 \end_inset
 
  está relacionada con la velocidad con la que gira el ventilador mediante
- una función matematica desconocida 
+ una función matemática desconocida 
 \begin_inset Formula $v_{aire}=f(y,V_{DC})$
 \end_inset
 
@@ -394,8 +399,111 @@ noprefix "false"
  fuera lineal cerca de dicho punto de equilibrio.
 \end_layout
 
+\begin_layout Standard
+Encontrando la relación lineal entre la tensión proporcionada al ventilador
+ y su velocidad resultante, es decir, algo de la forma 
+\begin_inset Formula $v_{aire}[m/s]=K_{a}.V_{DC}+cte$
+\end_inset
+
+, la ecuación 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Edo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ quedaría en función de la entrada del sistema 
+\begin_inset Formula $V_{DC}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+rpm en funcion de Vdc?; grafico y relacion
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Modelo del sistema
+\end_layout
+
+\begin_layout Standard
+Se quiere llegar a las ecuaciones de estado que tienen la forma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{cases}
+\dot{\mathbf{X}}(t)=A\mathbf{X}(t)+B\mathbf{U}(t)\\
+\mathbf{Y}(t)=A\mathbf{X}(t)+B\mathbf{U}(t)
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Renombrando la posición vertical de la pelota dentro del tubo como 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsection
 Controlador PID
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Imagenes/PID_wiki.png
+	lyxscale 50
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Esquema en bloques del controlador PID.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

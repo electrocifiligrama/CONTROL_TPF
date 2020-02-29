@@ -153,16 +153,16 @@ Large 22.85 Sistemas de Control}
 \backslash
 
 \backslash
-[1.5cm]  
+[0.5cm]  
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 textsc{
 \backslash
-large Trabajo Práctico N$^o~3$ }
+large Trabajo Práctico Final$ }
 \backslash
 
 \backslash
@@ -201,7 +201,7 @@ HRule
 
 { 
 \backslash
-huge Quanser - Realimentación de Estados}
+huge Trabajo Práctico Final}
 \end_layout
 
 \begin_layout Plain Layout
@@ -216,7 +216,7 @@ HRule
 \backslash
 
 \backslash
-[2cm]       
+[1cm]       
 \end_layout
 
 \begin_layout Plain Layout
@@ -447,7 +447,7 @@ end{minipage}
 \backslash
 vfill {
 \backslash
-large Entregado: 01 de Noviembre de 2019}
+large Entregado: 10 de Julio de 2020}
 \backslash
 
 \backslash
