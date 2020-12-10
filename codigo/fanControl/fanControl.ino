@@ -1,25 +1,28 @@
 #include "Motor.h"
 #include "Sensor.h"
 
-#define PIN_DES 10
-#define PIN_SENS 9
 #define MOTOR_NUM 4
+#define PIN_TRIG 2
+#define PIN_ECHO 3
 
 #define Kp  0.1
-#define Ki  0.1
-#define Kd  0.1
+#define Ki  0
+#define Kd  0
 
 int previousTime = 0;
-int previousInput = 0;
+int input_priori = 0;
+int i_priori = 0;
+int bias = 0;
 
 AF_DCMotor motor(MOTOR_NUM);
 
 int PID(int inputPID, double deltaT){
   double p = inputPID;
-  double i = (inputPID - previousInput)*deltaT;
-  double d = (inputPID - previousInput)/deltaT;
-  previousInput = inputPID;
-  return (Kp*p+Ki*i+Kd*d);
+  double i = i_priori+(inputPID - input_priori)*deltaT;
+  double d = (inputPID - input_priori)/deltaT;
+  input_priori = inputPID;
+  i_priori = i;
+  return (Kp*p+Ki*i+Kd*d+bias);
 }
 
 void PWM(int s){
@@ -38,6 +41,8 @@ void PWM(int s){
 }
 
 void setup(){
+    pinMode(PIN_TRIG, OUTPUT);
+    pinMode(PIN_ECHO, INPUT);
     Serial.begin(9600);
 }
 
@@ -49,8 +54,8 @@ void loop(){
   previousTime = currentTime;
 
   // PID
-  int deseada = analogRead(PIN_DES);
-  int dist = sensorRead(PIN_SENS);
+  int deseada = 50;//analogRead(PIN_DES);
+  int dist = sensorRead(PIN_ECHO, PIN_TRIG);
   int inputPID = deseada - dist;
   int output = PID(inputPID, deltaT);
 

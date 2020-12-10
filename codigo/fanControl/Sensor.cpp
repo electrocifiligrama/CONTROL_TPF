@@ -4,19 +4,17 @@
 
 #define maxHcm  50
 
-int sensorRead(int pin){
-  pinMode(pin, OUTPUT);
+int sensorRead(int pin_echo, int pin_trig){
 
   // Short Pulse
-  digitalWrite(pin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(pin, HIGH);
+  digitalWrite(pin_trig, LOW);
   delayMicroseconds(5);
-  digitalWrite(pin, LOW);
+  digitalWrite(pin_trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pin_trig, LOW);
 
   // Read
-  pinMode(pin, INPUT);
-  int usDuration = pulseIn(pin, HIGH);
+  int usDuration = pulseIn(pin_echo, HIGH);
 
   // Convert to cm
   // Speed of sound  340 m/s = 29 us/cm.
@@ -24,3 +22,6 @@ int sensorRead(int pin){
   double cm = usDuration / 29.0 / 2.0;
   return (cm*255)/50.0;
 }
+//  Serial.print("Distance = ");
+//  Serial.print(distance);
+//  Serial.println(" cm");
