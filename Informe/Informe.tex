@@ -1,0 +1,181 @@
+%% LyX 2.3.1-1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english,spanish]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{luainputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=25mm,rmargin=25mm}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>}}
+
+\begin{document}
+\input{caratulaCONTROL-TPF.tex}\newpage{}
+
+\section{Introducción}
+
+El siguiente proyecto consiste en la realizacion de un sistema que
+controle la altura a la que levita una pelota de ping pong dentro
+de un tubo plástico. El controlador se realizó utilizando PID digital
+por medio de un arduino.
+
+A lo largo de este informe se explicará el modelo físico del problema,
+la implementación del controlador así como los resultados del mismo.
+
+\section{Objetivos y resumen}
+
+El objetivo principal del proyecto es poder lograr que una pelota
+de ping pong se mantenga a una altura constante dentro de un tubo
+plástico a pesar de posibles alteraciones en la posición de la misma.
+
+La planta de nuestro sistema consiste, como se mencionó previamente,
+de un tubo plástico posicionado de manera vertical dentro del cual
+se encuentra la pelota de ping pong. Para mantenerla en una misma
+posición se cuenta con un ventilador en la base del tubo que levanta
+la pelota, como también de un sensor infrarrojo en la parte superior
+del tubo que censa la posición de la misma. La función del Arduino
+es controlar la velocidad del ventilador mediante control PID para
+variar el flujo del aire y permitir que la pelota se mantenga estable.
+
+Cabe aclarar que el tubo cuenta con ranuras laterales para permitir
+el flujo de aire hacia el exterior proveniente del ventilador.
+\begin{center}
+\begin{figure}[H]
+\caption{Imagen del sistema implementado}
+
+\end{figure}
+\par\end{center}
+
+\section{Marco Teórico}
+
+Para el modelado físico del sistema se considera que sólo actúan dos
+fuerzas para la pelota que está dentro del tubo, la fuerza del aire
+que empuja a la pelota y la fuerza gravitacional.
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imagenes/Fisico.PNG}
+\par\end{centering}
+\caption{Diagrama de fuerzas de la pelota dentro del tubo}
+
+\end{figure}
+\par\end{center}
+
+De la segunda Ley de Newton se tiene que:
+\begin{center}
+\[
+m\frac{d^{2}y}{dt^{2}}=\sum F_{y}
+\]
+\par\end{center}
+
+\begin{center}
+\[
+m\frac{d^{2}y}{dt^{2}}=F_{aire}-F_{g}
+\]
+\par\end{center}
+
+\begin{center}
+\begin{equation}
+\frac{d^{2}y}{dt^{2}}=\frac{1}{2m}C_{d}\rho\pi r^{2}(v_{aire}-\frac{dy}{dt})^{2}-g
+\end{equation}
+\par\end{center}
+
+Donde:
+\begin{itemize}
+\item $\rho\sim1.2kg/m^{3}$, la densidad volumétrica del aire
+\item $m=2.7g$, la masa de la pelota de ping pong
+\item $r=2cm$ es el radio de la pelota de ping pong
+\item $y$ es la posición vertical de la pelota dentro del tubo
+\item $v_{aire}$ es la rapidez promedio del aire cerca de la pelota
+\item $g=9.81m/s^{2}$, la constante gravitacional
+\item $C_{d}=\frac{24}{Re}+\frac{6}{1+\sqrt{Re}}+0.4$, el coeficiente de
+arrastre
+\item $Re=\frac{2r\rho(v_{aire}-\frac{dy}{dt})}{\eta}$
+\item $\eta$ es la viscosidad dinámica del aire.
+\end{itemize}
+Asumiendo que $Re>1000$ ($C_{d}\thickapprox0.4$) lo cual es válido
+si la pelota tiene un radio de 2cm y la velocidad del aire es mayor
+a $0.66\frac{m}{seg}$. Entonces la ecuación del problema resulta:
+\begin{center}
+\begin{equation}
+\frac{d^{2}y}{dt^{2}}=\frac{1}{5m}\rho\pi r^{2}(v_{aire}-\frac{dy}{dt})^{2}-g\label{eq:Edo}
+\end{equation}
+\par\end{center}
+
+Consideramos como la salida del sistema la altura de la pelota de
+ping pong con respecto a la base con el ventilador, mientras que la
+entrada del sistema es la tensión de continua que fija la velocidad
+con la que gira el ventilador de la base. La variable $v_{aire}$
+en la ecuación \ref{eq:Edo} está relacionada con la velocidad con
+la que gira el ventilador mediante una función matemática desconocida
+$v_{aire}=f(y,V_{DC})$.
+
+Debido a la complejidad del modelo, se decidió obtener la transferencia
+a lazo abierto del sistema de manera empírica a través de un análisis
+de la salida obtenida a partir de una determinada entrada cerca del
+punto de equilibrio del sistema. Se puede ver de la ecuación \ref{eq:Edo}
+que el sistema no es lineal por lo que se eligió como punto de equilibrio
+la altura correspondiente a la mitad del tubo y se trabaja como si
+el sistema fuera lineal cerca de dicho punto de equilibrio.
+
+Encontrando la relación lineal entre la tensión proporcionada al ventilador
+y su velocidad resultante, es decir, algo de la forma $v_{aire}[m/s]=K_{a}.V_{DC}+cte$,
+la ecuación \ref{eq:Edo} quedaría en función de la entrada del sistema
+$V_{DC}$.
+
+\begin{comment}
+rpm en funcion de Vdc?; grafico y relacion
+\end{comment}
+
+
+\subsection{Modelo del sistema}
+
+Se quiere llegar a las ecuaciones de estado que tienen la forma:
+
+\[
+\begin{cases}
+\dot{\mathbf{X}}(t)=A\mathbf{X}(t)+B\mathbf{U}(t)\\
+\mathbf{Y}(t)=C\mathbf{X}(t)+D\mathbf{U}(t)
+\end{cases}
+\]
+
+Renombrando la posición vertical de la pelota dentro del tubo como
+$x$, siendo $\frac{dx}{dt}=v_{pelota}$, la velocidad de la pelota,
+y la entrada $u=V_{DC}$, la tensión continua, se tienen las siguientes
+ecuaciones.
+
+\[
+v_{aire}=K_{a}.V_{DC}
+\]
+
+\[
+\frac{dx}{dt}=v_{pelota}
+\]
+
+\[
+\frac{dv_{pelota}}{dt}=\frac{1}{5m}\rho\pi r^{2}(v_{aire}-v_{pelota})^{2}-g
+\]
+
+Se observa que la última ecuación no es lineal, por lo que se debe
+linealizar por el Jacobiano. 
+
+\subsection{Controlador PID}
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.45]{Imagenes/PID_wiki}
+\par\end{centering}
+\caption{Esquema en bloques del controlador PID.}
+\end{figure}
+\par\end{center}
+
+\section{Simulación}
+
+\section{Implementación y resultados}
+
+\section{Conclusión}
+\end{document}
